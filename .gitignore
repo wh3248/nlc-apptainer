@@ -1,4 +1,6 @@
+eccodes
+eccodes_install
 esmf_build
 esmf_install
 scripts/nlc.sif
-**/.log
+**/*.log

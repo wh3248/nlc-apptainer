@@ -1,29 +1,23 @@
-####
-# Build script to build the ESMF project
-# from source using an apptainer image to install all
-# the system dependencies.
+#####
+# Script to get the source code of ESMF into a directory.
 #
-# This requires apptainer installed which only works on
-# Linux machines. However, using apptainer means the
-# nasa-land-coupler can be easily installed and run on
-# any Linux machine.
-####
-export ESMF_DIR=$ROOT_DIR/esmf_build
-export ESMF_COMM=openmpi
-export ESMF_NETCDF=nc-config
-export ESMF_BOPT=O
-export ESMF_COMPILER=gfortran
-export ESMF_CXX=mpicc
-export ESMF_INSTALL_PREFIX=$ROOT_DIR/esmf_install
-export ESMF_MODDIR="$ESMF_DIR/mod/modO/Linux.gfortran.64.openmpi.default"
+# This should be run external to the container and creates
+#####
+export ROOT_DIR="$(dirname $(dirname $(realpath "$0")))"
+export ESMF_DIR="$ROOT_DIR/esmf_build"
+export SCRIPTS_DIR="$ROOT_DIR/scripts"
+if [[ ! -d "$ESMF_DIR" ]]; then
+    cd $ROOT_DIR
+    echo "Create ESMF_DIR"
+    wget https://github.com/esmf-org/esmf/archive/refs/tags/v8.9.0.zip
+    unzip v8.9.0.zip
+    mv esmf-8.9.0 $ESMF_DIR
+    rm v8.9.0.zip
+    cd $ESMF_DIR
+    pwd
+    ls $SCRIPTS_DIR
+    apptainer exec $SCRIPTS_DIR/nlc.sif bash $SCRIPTS_DIR/in_container/build_esmf.sh
+else
+    echo Already built $ESMF_DIR
+fi
 
-cd $ESMF_DIR
-echo MOD
-echo $ESMF_MODDIR
-mkdir -p $ESMF_MODDIR
-cp /usr/lib64/gfortran/modules/netcdf*.mod $ESMF_MODDIR
-ls $ESMF_MODDIR
-gmake info &>info.log
-echo INSTALL DIR $ESMF_INSTALL_PREFIX
-gmake &>make.log
-make install &> install.log

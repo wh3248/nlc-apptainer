@@ -12,15 +12,15 @@ From: docker.io/rockylinux/rockylinux:10
     export PATH=/opt/openmpi/bin:/opt/openmpi/include:$PATH
     export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
 
-    export ESMF_DIR=/opt/esmf_build
-    export ESMF_COMM=openmpi
-    export ESMF_NETCDF=nc-config
-    export ESMF_BOPT=O
-    export ESMF_COMPILER=gfortran
-    export ESMF_CXX=mpicc
-    export ESMF_INSTALL_PREFIX=/opt/esmf
-    export ESMF_MODDIR="$ESMF_DIR/mod/modO/Linux.gfortran.64.openmpi.default"
-    export NLC_DIR=/home/wh3248/workspaces/NASA-Land-Coupler
+    #export ESMF_DIR=/opt/esmf_build
+    #export ESMF_COMM=openmpi
+    #export ESMF_NETCDF=nc-config
+    #export ESMF_BOPT=O
+    #export ESMF_COMPILER=gfortran
+    #export ESMF_CXX=mpicc
+    #export ESMF_INSTALL_PREFIX=/opt/esmf
+    #export ESMF_MODDIR="$ESMF_DIR/mod/modO/Linux.gfortran.64.openmpi.default"
+    #export NLC_DIR=/home/wh3248/workspaces/NASA-Land-Coupler
 
 %post
     dnf -y update
@@ -30,6 +30,7 @@ From: docker.io/rockylinux/rockylinux:10
     dnf -y install libtirpc openjpeg2
     dnf -y install epel-release
     dnf -y install dnf-plugins-core
+    dnf -y install libaec libaec-devel
     dnf -y install make wget
     dnf -y groupinstall "Development Tools"
     dnf -y install openssh-clients
@@ -69,14 +70,14 @@ From: docker.io/rockylinux/rockylinux:10
     #### BUILD ESMF within container
     ####
     
-    export ESMF_DIR=/opt/esmf_build
-    export ESMF_COMM=openmpi
-    export ESMF_NETCDF=nc-config
-    export ESMF_BOPT=O
-    export ESMF_COMPILER=gfortran
-    export ESMF_CXX=mpicc
-    export ESMF_INSTALL_PREFIX=/opt/esmf
-    export ESMF_MODDIR="$ESMF_DIR/mod/modO/Linux.gfortran.64.openmpi.default"
+    #export ESMF_DIR=/opt/esmf_build
+    #export ESMF_COMM=openmpi
+    #export ESMF_NETCDF=nc-config
+    #export ESMF_BOPT=O
+    #export ESMF_COMPILER=gfortran
+    #export ESMF_CXX=mpicc
+    #export ESMF_INSTALL_PREFIX=/opt/esmf
+    #export ESMF_MODDIR="$ESMF_DIR/mod/modO/Linux.gfortran.64.openmpi.default"
 
     #cd /opt
     #wget https://github.com/esmf-org/esmf/archive/refs/tags/v8.9.0.zip
@@ -87,7 +88,7 @@ From: docker.io/rockylinux/rockylinux:10
 
     # Copy fortran netcdf modules to ESMF_MODDIR
     
-    mkdir -p $ESMF_MODDIR
+    #mkdir -p $ESMF_MODDIR
     #cp /usr/lib64/gfortran/modules/netcdf*.mod $ESMF_MODDIR
     #cd $ESMF_DIR
     #gmake info &>log.info

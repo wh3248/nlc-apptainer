@@ -1,0 +1,27 @@
+These are scenarios:
+    1. Build SMFS in the container and create .sif
+       Successfully create .sif. Run container .sif file to get shell
+       make install
+       
+       This fails because the install tries to modify the code in the build directory and does not have rights.
+
+    2. Build SMFS and run "make install" in the container
+       This fails to build a .sif file because the make install find missing files in the build directory
+    
+    3. Build all SMFS prerequisites in the container and create .sif
+       Successfully creat .sif 
+       From linux outside of container shell
+       Get the source code of SMFS using:
+            
+            wget https://github.com/esmf-org/esmf/archive/refs/tags/v8.9.0.zip"
+            unzip v8.9.0.zip
+            mv esmf-8.9.0 $ESMF_DIR
+            rm v8.9.0.zip
+            cd $ESMF_DIR
+       Run container .sf to create shell
+
+            mkdir -p $ESMF_MODDIR
+            cp /usr/lib64/gfortran/modules/netcdf*.mod $ESMF_MODDIR
+            cd $ESMF_DIR
+            gmake info &>log.info
+            gmake &> log.make

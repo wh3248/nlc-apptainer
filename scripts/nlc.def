@@ -1,0 +1,124 @@
+#
+# This is an apptainer definition file to create a parflow image containing OpenMPI.
+# This is used by the script build_mpi.sh
+#
+
+Bootstrap: docker
+From: docker.io/rockylinux/rockylinux:10
+
+%environment
+    #export DEBIAN_FRONTEND=noninteractive
+    export PATH=/opt/cmake/bin:$PATH
+    export PATH=/opt/openmpi/bin:/opt/openmpi/include:$PATH
+    export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
+
+    export ESMF_DIR=/opt/esmf_build
+    export ESMF_COMM=openmpi
+    export ESMF_NETCDF=nc-config
+    export ESMF_BOPT=O
+    export ESMF_COMPILER=gfortran
+    export ESMF_CXX=mpicc
+    export ESMF_INSTALL_PREFIX=/opt/esmf
+    export ESMF_MODDIR="$ESMF_DIR/mod/modO/Linux.gfortran.64.openmpi.default"
+    export NLC_DIR=/home/wh3248/workspaces/NASA-Land-Coupler
+
+%post
+    dnf -y update
+    dnf -y install tcl-devel tk-devel
+    dnf -y install which
+
+    dnf -y install libtirpc openjpeg2
+    dnf -y install epel-release
+    dnf -y install dnf-plugins-core
+    dnf -y install make wget
+    dnf -y groupinstall "Development Tools"
+    dnf -y install openssh-clients
+    dnf -y install git
+    dnf -y install gfortran
+    dnf -y install libffi-devel
+    dnf -y --nobest install openssl-devel
+    dnf -y install cmake
+    dnf clean all
+
+   # Install CMake
+   # mkdir -p /opt/cmake
+   # cd /opt/cmake
+   # curl -L https://github.com/Kitware/CMake/releases/download/v3.30.8/cmake-3.30.8-linux-x86_64.tar.gz | tar --strip-components=1 -xzv
+   # export PATH=/opt/cmake/bin:$PATH
+   # echo Installed cmake
+
+    
+    # Install OpenMPI
+    cd /opt
+    wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.gz
+    tar -xzf openmpi-4.1.6.tar.gz
+    cd openmpi-4.1.6
+    ./configure --prefix=/opt/openmpi
+    make -j$(nproc)
+    make install
+
+    export PATH=/opt/openmpi/bin:/opt/openmpi/include:$PATH
+    export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
+
+    dnf -y install hdf5-openmpi
+    dnf -y install netcdf netcdf-devel
+    dnf -y install netcdf-fortran netcdf-fortran-devel
+    dnf clean all
+
+    ####
+    #### BUILD ESMF within container
+    ####
+    
+    export ESMF_DIR=/opt/esmf_build
+    export ESMF_COMM=openmpi
+    export ESMF_NETCDF=nc-config
+    export ESMF_BOPT=O
+    export ESMF_COMPILER=gfortran
+    export ESMF_CXX=mpicc
+    export ESMF_INSTALL_PREFIX=/opt/esmf
+    export ESMF_MODDIR="$ESMF_DIR/mod/modO/Linux.gfortran.64.openmpi.default"
+
+    #cd /opt
+    #wget https://github.com/esmf-org/esmf/archive/refs/tags/v8.9.0.zip
+    #unzip v8.9.0.zip
+    #mv esmf-8.9.0 $ESMF_DIR
+    #rm v8.9.0.zip
+    #cd $ESMF_DIR
+
+    # Copy fortran netcdf modules to ESMF_MODDIR
+    
+    mkdir -p $ESMF_MODDIR
+    #cp /usr/lib64/gfortran/modules/netcdf*.mod $ESMF_MODDIR
+    #cd $ESMF_DIR
+    #gmake info &>log.info
+    #gmake &> log.make
+    #echo "Finished Build of ESMF"
+    #echo "Install into $ESMF_INSTALL_PREFIX"
+    #make install
+    #echo "Finished Install of ESMF"
+    #ls $ESMF_INSTALL_PREFIX
+
+    #########
+    # BUILD EECODES in container
+    #########
+    #echo Start build of ECCODES
+    #cd /opt
+    #mkdir -p /root
+    #SAVE_HOME=$HOME
+    #export HOME=/root
+    #git config --global --add safe.directory /opt/eccodes/build/ecbuild-src
+    #git clone https://github.com/ecmwf/eccodes.git
+    #cd eccodes
+    #mkdir -p build
+    #cd build
+    #cmake .. -DMAKE_INSTALL_PREFIX=/usr/local -DENABLE_NETCDF=ON -DENABLE_FORTRAN=ON
+    #make -j$(nproc)
+    #make install
+    
+    #######
+    # Clone NasaLandCoverProject and build inside container
+    #######
+   #cd $ESMF_DIR
+   #./configure.sh
+
+

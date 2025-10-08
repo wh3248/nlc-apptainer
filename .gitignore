@@ -1,0 +1,4 @@
+esmf_build
+esmf_install
+scripts/nlc.sif
+**/.log

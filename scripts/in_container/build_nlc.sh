@@ -1,7 +1,8 @@
-echo Running inside container
-echo NLC_DIR $NLC_DIR
-#cp /usr/lib64/gfortran/modules/netcdf*.mod $LIS_MODESMF
-echo "CONFIGURE"
-bash ./configure.sh < nlc_prompts.txt
-echo BUILD
-bash ./build.sh --clean
+####
+# Build the NLC from inside the apptainer
+####
+export IN_CONTAINER_DIR="$(dirname $(realpath "$0"))"
+echo Configure the NLC
+bash ./configure.sh < $IN_CONTAINER_DIR/nlc_prompts.txt
+echo Build the NLC
+bash ./build.sh --clean --components="LIS"

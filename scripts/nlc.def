@@ -4,7 +4,7 @@
 #
 
 Bootstrap: docker
-From: docker.io/rockylinux/rockylinux:10
+From: docker.io/rockylinux/rockylinux:9
 
 %environment
     #export DEBIAN_FRONTEND=noninteractive
@@ -27,9 +27,13 @@ From: docker.io/rockylinux/rockylinux:10
     dnf -y install tcl-devel tk-devel
     dnf -y install which
 
-    dnf -y install libtirpc openjpeg2
+    dnf -y install libtirpc
     dnf -y install epel-release
     dnf -y install dnf-plugins-core
+    dnf config-manager --set-enabled crb
+    dnf makecache
+    dnf -y install libjpeg-turbo libjpeg-turbo-devel
+    dnf -y install jasper
     dnf -y install libaec libaec-devel
     dnf -y install make wget
     dnf -y groupinstall "Development Tools"

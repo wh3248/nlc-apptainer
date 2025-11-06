@@ -18,4 +18,9 @@ else
     cd $ECCODES_BUILD_DIR
     apptainer exec $SCRIPTS_DIR/nlc.sif bash $SCRIPTS_DIR/in_container/build_eccodes.sh
 fi
+if [[ ! -d "$ECCODES_DIR/lib" ]]; then
+    echo Create soft link for $ECCODES_DIR/lib from $ECCODES_DIR/lib64
+    ln -s $ECCODES_DIR/lib64 $ECCODES_DIR/lib
+fi
+
 

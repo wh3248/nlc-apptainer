@@ -4,5 +4,6 @@
 export IN_CONTAINER_DIR="$(dirname $(realpath "$0"))"
 echo Configure the NLC
 bash ./configure.sh < $IN_CONTAINER_DIR/nlc_prompts.txt
+#bash ./configure.sh 
 echo Build the NLC
 bash ./build.sh --clean --components="LIS"

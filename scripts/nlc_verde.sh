@@ -1,0 +1,57 @@
+export PS1="apptainer"
+export LANGUAGE=english
+export def_nlc_dir="$NLC_DIR"
+
+#export def_lis_rpc=/usr/lib64/libtirpc.so.3
+#export def_lis_hdf5=/usr/lib64/libhdf5.so 
+export def_lis_rpc=/usr
+export def_lis_hdf5=/usr
+#export def_lis_netcdf=/usr/lib64/libnetcdf.so
+export def_lis_netcdf=/usr
+export def_lis_openjpeg=/usr/lib64/libjpeg.so.62
+#export def_lis_eccodes=$ECODES_INSTALL_DIR/lib64/libeccodes.so
+export def_lis_eccodes=$ECODES_INSTALL_DIR
+export def_lis_modesmf=$LIS_MODESMF/mod/modO/Linux.gfortran.64.openmpi.default
+export def_lis_libesmf=$LIS_LIBESMF
+export def_lvt_proj=
+export def_ldt_libgeotiff=/usr/lib64/libtiff.so.6
+export def_lvt_gdal=
+export def_lvt_fortrangis=
+export def_lis_petsc=
+export def_lis_minpack=
+export def_lis_crtm=
+export def_lis_crtm_prof=
+export def_lis_cmem=
+export def_lis_lapack=
+
+#export DEV_ENV=LISF_7_5_INTEL_2023_2_1
+export LC_ALL=C
+export LIS_ARCH=linux_fortran
+export LIS_FC=mpifort
+export LIS_CC=mpicc
+export LIS_SPMD=parallel
+export LIS_RPC=$def_lis_rpc
+export LIS_OPENJPEG=$def_lis_openjpeg
+export LIS_ECCODES=$def_lis_eccodes
+export LIS_NETCDF=$def_lis_netcdf
+export LIS_RPC=$def_lis_rpc
+
+#export LDT_ARCH=linux_ifc
+#export LDT_FC=mpifort
+#export LDT_CC=mpicc
+#export LDT_SPMD=parallel
+#export LDT_RPC=$def_lis_rpc
+#export LDT_OPENJPEG=$def_lis_openjpeg
+#export LDT_ECCODES=$def_lis_eccodes
+#export LDT_NETCDF=$def_lis_netcdf
+#export LDT_RPC=$def_lis_rpc
+
+#export LVT_ARCH=linux_ifc
+#export LVT_FC=mpifort
+#export LVT_CC=mpicc
+#export LVT_SPMD=parallel
+#export LVT_RPC=$def_lis_rpc
+#export LVT_OPENJPEG=$def_lis_openjpeg
+#export LVT_ECCODES=$def_lis_eccodes
+#export LVT_NETCDF=$def_lis_netcdf
+#export LVT_RPC=$def_lis_rpc
